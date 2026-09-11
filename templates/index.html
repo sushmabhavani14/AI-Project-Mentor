@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>AI Project Mentor</title>
+
+</head>
+
+<body>
+
+    <h1>AI Project Mentor</h1>
+
+    <p>Enter your project idea:</p>
+
+    <form method="POST">
+
+        <textarea
+            name="idea"
+            rows="6"
+            cols="60"
+            placeholder="Example: I want to build an AI-based farming project">
+        </textarea>
+
+        <br><br>
+
+        <button type="submit">
+            Generate Project Plan
+        </button>
+
+    </form>
+
+    {% if result %}
+
+        <h2>Project Mentor Result</h2>
+
+        <pre>{{ result }}</pre>
+
+    {% endif %}
+
+</body>
+
+</html>
