@@ -1,42 +1,274 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>AI Project Mentor</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .input-card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+
+        .input-card h2 {
+            margin-top: 0;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 16px;
+            resize: vertical;
+            outline: none;
+        }
+
+        textarea:focus {
+            border-color: #6366f1;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+
+        .result-card {
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .result-card h1,
+        .result-card h2,
+        .result-card h3 {
+            color: #111827;
+            margin-top: 28px;
+        }
+
+        .result-card h1 {
+            font-size: 28px;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .result-card h2 {
+            font-size: 22px;
+        }
+
+        .result-card h3 {
+            font-size: 18px;
+        }
+
+        .result-card p {
+            line-height: 1.7;
+        }
+
+        .result-card li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .result-card ul,
+        .result-card ol {
+            padding-left: 25px;
+        }
+
+        .result-card strong {
+            color: #4f46e5;
+        }
+
+        .result-card code {
+            background: #f1f5f9;
+            padding: 3px 6px;
+            border-radius: 5px;
+        }
+
+        .result-card pre {
+            background: #111827;
+            color: white;
+            padding: 18px;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+            .input-card,
+            .result-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-    <h1>AI Project Mentor</h1>
 
-    <p>Enter your project idea:</p>
+    <div class="header">
 
-    <form method="POST">
+        <h1>🎓 AI Project Mentor</h1>
 
-        <textarea
-            name="idea"
-            rows="6"
-            cols="60"
-            placeholder="Example: I want to build an AI-based farming project">
-        </textarea>
+        <p>Turn your project idea into a complete academic project plan</p>
 
-        <br><br>
+    </div>
 
-        <button type="submit">
-            Generate Project Plan
-        </button>
 
-    </form>
+    <div class="container">
 
-    {% if result %}
 
-        <h2>Project Mentor Result</h2>
+        <div class="input-card">
 
-        <pre>{{ result }}</pre>
+            <h2>💡 Enter Your Project Idea</h2>
 
-    {% endif %}
+            <p>
+                Describe your project idea in simple words.
+            </p>
+
+            <form method="POST" onsubmit="showLoading()">
+
+                <textarea
+                    name="idea"
+                    placeholder="Example: I want to build an AI-based student performance prediction system."
+                    required>{{ request.form.get('idea', '') }}</textarea>
+
+                <button type="submit">
+                    Generate Project Plan
+                </button>
+
+            </form>
+
+            <div class="loading" id="loading">
+
+                ⏳ Generating your project plan...
+
+            </div>
+
+        </div>
+
+
+        {% if result %}
+
+        <div class="result-card">
+
+            <div id="result"></div>
+
+        </div>
+
+        <script>
+
+            const markdownText = {{ result | tojson }};
+
+            document.getElementById("result").innerHTML =
+                marked.parse(markdownText);
+
+        </script>
+
+        {% endif %}
+
+
+    </div>
+
+
+    <div class="footer">
+
+        AI Project Mentor • Academic Project Planning Assistant
+
+    </div>
+
+
+    <script>
+
+        function showLoading() {
+
+            document.getElementById("loading").style.display = "block";
+
+        }
+
+    </script>
+
 
 </body>
 
