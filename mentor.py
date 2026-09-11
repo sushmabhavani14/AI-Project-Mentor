@@ -49,7 +49,7 @@ def generate_project_plan(student_idea):
     prompt = SYSTEM_PROMPT + "\n\nStudent idea:\n" + student_idea
 
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-3.5-flash",
         contents=prompt
     )
 
