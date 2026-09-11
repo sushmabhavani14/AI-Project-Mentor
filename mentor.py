@@ -36,6 +36,12 @@ Rules:
 - Identify if the project scope is too large.
 - Break large projects into smaller modules.
 - Give practical implementation steps.
+- For System Architecture, do not use ASCII art, square brackets,
+  box-drawing characters, or code blocks.
+- Present the architecture as a simple step-by-step flow using arrows.
+- Use this style:
+  Student Input → Data Processing → AI/ML Model → Flask Backend → Web Dashboard
+- Keep the architecture simple and suitable for a college project.
 """
 
 def generate_project_plan(student_idea):
